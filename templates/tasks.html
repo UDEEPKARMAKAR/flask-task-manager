@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Your Tasks - Task Manager{% endblock %}
+
+{% block content %}
+    <h2>Your Tasks</h2>
+
+    {% if message %}
+        <p class="success">{{ message }}</p>
+    {% endif %}
+
+    <p class="stats">
+        Total: {{ stats.total }} | Pending: {{ stats.pending }} | Completed: {{ stats.done }}
+    </p>
+
+    <div class="filters">
+        <a href="{{ url_for('show_tasks', filter='all') }}"
+           class="{% if current_filter == 'all' %}active{% endif %}">All</a>
+        <a href="{{ url_for('show_tasks', filter='pending') }}"
+           class="{% if current_filter == 'pending' %}active{% endif %}">Pending</a>
+        <a href="{{ url_for('show_tasks', filter='completed') }}"
+           class="{% if current_filter == 'completed' %}active{% endif %}">Completed</a>
+    </div>
+
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li class="{% if task.done %}done{% endif %}">
+                    <div class="task-info">
+                        <span class="task-title">{{ task.title }}</span>
+                        <span class="badge {{ task.priority|lower }}">{{ task.priority }}</span>
+                        <small>Added: {{ task.created }}</small>
+                    </div>
+
+                    <div class="actions">
+                        {% if not task.done %}
+                            <form action="{{ url_for('complete_task', task_id=task.id) }}" method="POST">
+                                <button type="submit" class="small">Done</button>
+                            </form>
+                        {% endif %}
+                        <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST">
+                            <button type="submit" class="small danger">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks to show here. <a href="{{ url_for('home') }}">Add one from the homepage!</a></p>
+    {% endif %}
+{% endblock %}

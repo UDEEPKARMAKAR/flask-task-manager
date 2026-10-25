@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}About - Task Manager{% endblock %}
+
+{% block content %}
+    <h2>About This App</h2>
+    <p>
+        This is a simple Task Manager built with Python Flask as a mini project.
+        You can add tasks with a priority, mark them as done, delete them,
+        and filter the list.
+    </p>
+
+    <h2>Features</h2>
+    <ul>
+        <li>Add a task using a form (POST)</li>
+        <li>View and filter tasks (GET)</li>
+        <li>Mark tasks as completed or delete them (POST)</li>
+        <li>Input validation with friendly error messages</li>
+    </ul>
+
+    <p>Built by: <strong>Udeep Karmakar</strong></p>
+{% endblock %}

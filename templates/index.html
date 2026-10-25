@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Task Manager{% endblock %}
+
+{% block content %}
+    <p class="stats">
+        You have <strong>{{ stats.pending }}</strong> pending
+        and <strong>{{ stats.done }}</strong> completed task(s).
+    </p>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form action="{{ url_for('add_task') }}" method="POST">
+        <input type="text" name="title" placeholder="Enter a task" value="{{ title or '' }}">
+
+        <select name="priority">
+            {% for p in priorities %}
+                <option value="{{ p }}" {% if p == (priority or 'Medium') %}selected{% endif %}>
+                    {{ p }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Add Task</button>
+    </form>
+{% endblock %}
